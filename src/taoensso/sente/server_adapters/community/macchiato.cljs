@@ -1,14 +1,13 @@
-(ns taoensso.sente.server-adapters.macchiato
-  "Sente server adapter for Node.js with the Macchiato Framework
-  (https://macchiato-framework.github.io/)."
+(ns taoensso.sente.server-adapters.community.macchiato
+  "Sente server adapter for Node.js with the Macchiato Framework,
+  Ref. <https://github.com/macchiato-framework/macchiato-core>."
   {:author "Andrew Phillips <@theasp>"}
   (:require
-   [macchiato.middleware.anti-forgery :as csrf]
-   [taoensso.sente :as sente]
-   [taoensso.encore :as enc :refer-macros ()]
-   [taoensso.sente.server-adapters.generic-node :as generic-node]
-   [taoensso.timbre :as timbre
-    :refer-macros (tracef debugf infof warnf errorf)]))
+   [taoensso.encore :as enc]
+   [taoensso.timbre :as timbre]
+   [taoensso.sente  :as sente]
+   [taoensso.sente.server-adapters.community.generic-node :as generic-node]
+   [macchiato.middleware.anti-forgery :as csrf]))
 
 (def csrf-path [:session :macchiato.middleware.anti-forgery/anti-forgery-token])
 
@@ -29,7 +28,7 @@
   "A customized `make-channel-socket-server!` that uses Node.js with
   Macchiato as the web server."
   [& [opts]]
-  (tracef "Making Macchiato chsk")
+  (timbre/trace "Making Macchiato chsk server")
   (-> (generic-node/get-sch-adapter)
       (sente/make-channel-socket-server! opts)
       (update :ajax-get-or-ws-handshake-fn wrap-macchiato)

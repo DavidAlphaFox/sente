@@ -1,5 +1,6 @@
-(ns taoensso.sente.server-adapters.express
-  "Sente server adapter for Node.js with Express (http://expressjs.com/).
+(ns taoensso.sente.server-adapters.community.express
+  "Sente server adapter for Node.js with Express,
+  Ref. <https://github.com/expressjs/express>.
 
   This adapter works differently that the others as Sente is
   expecting Ring requests but Express uses http.IncomingMessage.
@@ -16,10 +17,9 @@
   implementation (it's a bit different than something built on Ring)."
   {:author "Andrew Phillips <@theasp>"}
   (:require
-   [taoensso.sente :as sente]
-   [taoensso.sente.server-adapters.generic-node :as generic-node]
-   [taoensso.timbre :as timbre
-    :refer-macros (tracef debugf infof warnf errorf)]))
+   [taoensso.timbre :as timbre]
+   [taoensso.sente  :as sente]
+   [taoensso.sente.server-adapters.community.generic-node :as generic-node]))
 
 (defn- obj->map
   "Workaround for `TypeError: Cannot convert object to primitive value`s
@@ -45,7 +45,7 @@
            :form-params  form-params
            :params       params})]
 
-    (tracef "Emulated Ring request: %s" ring-req)
+    (timbre/tracef "Emulated Ring request: %s" ring-req)
     ring-req))
 
 (defn- default-csrf-token-fn
@@ -57,7 +57,7 @@
   "A customized `make-channel-socket-server!` that uses Node.js with
   Express as the web server."
   [& [opts]]
-  (tracef "Making Express chsk")
+  (timbre/trace "Making Express chsk server")
   (let [default-opts {:csrf-token-fn default-csrf-token-fn}
         chsk (sente/make-channel-socket-server!
               (generic-node/get-sch-adapter)

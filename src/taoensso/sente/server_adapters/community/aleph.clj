@@ -1,5 +1,6 @@
-(ns taoensso.sente.server-adapters.aleph
-  "Sente server adapter for Aleph (https://github.com/ztellman/aleph)."
+(ns taoensso.sente.server-adapters.community.aleph
+  "Sente server adapter for Aleph,
+  Ref. <https://github.com/clj-commons/aleph>."
   {:author "Soren Macbeth (@sorenmacbeth)"}
   (:require
    [taoensso.sente.interfaces :as i]
@@ -29,13 +30,14 @@
   (ring-req->server-ch-resp [sch-adapter ring-req callbacks-map]
     (let [{:keys [on-open on-close on-msg _on-error]} callbacks-map
           ws? (websocket-req? ring-req)]
-      (if ws?
-        (d/chain (aleph/websocket-connection ring-req opts)
-          (fn [s] ; sch
-            (when on-msg   (s/consume     (fn [msg] (on-msg   s ws? msg)) s))
-            (when on-close (s/on-closed s (fn []    (on-close s ws? nil))))
-            (when on-open  (do                      (on-open  s ws?)))
-            {:body s}))
+      (if-let [s (and ws? (try @(aleph/websocket-connection ring-req opts)
+                               (catch Exception e nil)))]
+        (do
+          (when on-msg   (s/consume     (fn [msg] (on-msg   s ws? msg)) s))
+          (when on-close (s/on-closed s (fn []    (on-close s ws? nil))))
+          (when on-open  (do                      (on-open  s ws?)))
+          {:body s})
+
         (let [s (s/stream)] ; sch
           (when on-close (s/on-closed s (fn [] (on-close s ws? nil))))
           (when on-open  (do                   (on-open  s ws?)))

@@ -1,4 +1,122 @@
-> This project uses [Break Versioning](https://github.com/ptaoussanis/encore/blob/master/BREAK-VERSIONING.md) as of **Aug 16, 2014**.
+This project uses Break Versioning (https://www.taoensso.com/break-versioning)
+
+## `1.19.2` (2023-08-30)
+
+> 📦 [Available on Clojars](https://clojars.org/com.taoensso/sente/versions/1.19.2)
+
+Identical to `1.19.1`, but includes a hotfix (dbb798a) for [#434] to remove the unnecessary logging of potentially sensitive Ring request info when connecting to a server without a client id.
+
+This should be a safe update for users of `1.19.x`.
+
+
+## `1.19.1` (2023-07-18)
+
+> 📦 [Available on Clojars](https://clojars.org/com.taoensso/sente/versions/1.19.1)
+
+Identical to `1.19.0`, but synchronizes Encore dependency with my recent library releases (Timbre, Tufte, Sente, Carmine, etc.) to prevent confusion caused by dependency conflicts.
+
+This is a safe update for users of `1.19.0`.
+
+
+## `1.19.0` (2023-07-13)
+
+> 📦 [Available on Clojars](https://clojars.org/com.taoensso/sente/versions/1.19.0)
+
+This is intended as a **non-breaking maintenance release**, but it touches a lot of code so **please keep an eye out** for (and let me know about) any unexpected problems - thank you! 🙏
+
+**Tip**: the [reference example](https://github.com/taoensso/sente/tree/master/example-project) includes a number of tools to help test Sente in your environment.
+
+### Fixes since `1.18.1`
+
+* 0dc8a12 [fix] [#431] Some disconnected user-ids not removed from `connected-uids`
+
+### New since `1.18.1`
+
+* e330ef2 [new] Allow WebSocket constructors to delay connection
+* 6021258 [new] [example] Misc improvements to example project
+* d0fd918 [new] Alias client option: `:ws-kalive-ping-timeout-ms` -> `:ws-ping-timeout-ms`
+* GraalVM compatibility is now tested during build
+
+
+## `1.18.1` (2023-07-04)
+
+> 📦 [Available on Clojars](https://clojars.org/com.taoensso/sente/versions/1.18.1)
+
+This is an important **hotfix release**, please update if you're using `1.18.0`.
+
+### Fixes since `1.18.0`
+
+* ad62f1e [fix] Ajax poll not properly timing out
+* 1d15fe5 [fix] [#430] `[:chsk/uidport-close]` server event not firing
+
+### New since `1.18.0`
+
+* 5c0f4ad [new] [example] Add example server-side uidport event handlers
+
+
+## `1.18.0` (2023-06-30)
+
+> 📦 [Available on Clojars](https://clojars.org/com.taoensso/sente/versions/1.18.0)
+
+Same as `1.18.0-RC1`, except for:
+
+* 7889a0b [fix] [#429] Bump deps, fix possible broken cljs builds
+
+
+## `1.18.0-RC1` (2023-05-30)
+
+> 📦 [Available on Clojars](https://clojars.org/com.taoensso/sente/versions/1.18.0-RC1)
+
+This is a **major pre-release** that **INCLUDES BREAKING CHANGES**.
+
+Please test carefully and **report any issues**!
+
+### ⚠️ Changes since `1.17.0`
+
+See [here](https://github.com/taoensso/sente/wiki/0-Breaking-changes#sente-v117-to-v118) for detailed **migration/upgrade instructions**! 👈
+
+* 0b37e4c [mod] [#319] [BREAKING] Change default `wrap-recv-evs?` value
+* d5b3dc5 [mod] [#404] [#398] [BREAKING] Disable default legacy pack value
+* 23d9f7a [mod] [#412] [BREAKING] Move unofficial adapters under `community` dir
+* c3d7c6c [mod] [#424] [BREAKING] Temporarily remove `jetty9-ring-adapter` support
+* bfa4c72 [mod] Client will now re-connect on WebSocket send error
+* 76b8abc [mod] [Aleph adapter] [#350] Experimental change to support Ring middleware (@g7s)
+* 728901a [mod] [Undertow adapter] [#409] Add default Ajax read timeout (@kajism)
+* 8806e72 [new] [Undertow adapter] [#409] Allow Ajax read timeout (@kajism)
+* e6cdf99 [mod] Refactor, improve logging
+
+### Fixes since `1.17.0`
+
+* eae2726 [fix] [#259] Improve client-side detection of broken connections
+* a2b9af8 [fix] [#417] Fix broken server->client broadcast on client IP change (@Naomarik)
+* 82fc83d [fix] Verify expected server-ch identity when updating conns
+* c6deca6 [fix] Potential (though unlikely) race condition on client GC
+* 7b466ad [fix] [#260] NB Prevent unnecessary participation of Ajax channels in `conns_` during handshake
+* cc84303 [fix] [new] [#380] NB Refactor ws state management
+* da73f03 [fix] [#346] [#340] Malformed `:chsk/bad-package` error
+* 91a239b [fix] [#428] Unpack broken for binary data (@rosejn)
+* Several fixes to Undertow adapter (2a91ad4, 318e90a, a4cf644)
+
+### New since `1.17.0`
+
+* 7dba037 [new] [#420] More reliable WebSocket server->client broadcasts
+* 5f945db [new] [#414] Add server config option to control msecs before marking conns as closed
+* 6f3e521 [new] [#259] Add client config option to control kalive ping timeout
+* f560294 [new] [#325] Add option for custom WebSocket constructor
+* ddde20d [new] [#342] Smarter Ajax XHR acquisition, opt to control pool
+* 45e1880 [new] [#422] Add client-side util to simulate a broken connection
+* 627029f [new] [Experimental] Add support for 3-arity (async) Ring v1.6+ handlers
+* 221f112 [new] [Example] Update, improve reference example
+* Introduced a new [community docs wiki](https://github.com/taoensso/sente/wiki)
+
+### Other improvements since `1.17.0`
+
+* 057a8cb [new] Add interface docstrings
+* c6aca8c [nop] [#406] Clarify client+server docstrings re: csrf-token
+* 8b9804e [nop] Mark deprecated vars
+* Major improvements to [example project](https://github.com/taoensso/sente/tree/master/example-project)
+* Many other small improvements to implementation, documentation, etc.
+
 
 ## v1.17.0 - 2022 Jun 13
 
@@ -7,7 +125,7 @@
 ```
 
 > This is a non-breaking **maintenance and feature release**.  
-> See [here](https://github.com/ptaoussanis/encore#recommended-steps-after-any-significant-dependency-update) for recommended steps when updating any Clojure/Script dependencies.
+> See [here](https://github.com/taoensso/encore#recommended-steps-after-any-significant-dependency-update) for recommended steps when updating any Clojure/Script dependencies.
 
 Identical to `v1.17.0-RC2`.
 
@@ -35,7 +153,7 @@ Identical to `v1.17.0-RC2`.
 ```
 
 > This is a non-breaking **maintenance and feature release**.  
-> See [here](https://github.com/ptaoussanis/encore#recommended-steps-after-any-significant-dependency-update) for recommended steps when updating any Clojure/Script dependencies.
+> See [here](https://github.com/taoensso/encore#recommended-steps-after-any-significant-dependency-update) for recommended steps when updating any Clojure/Script dependencies.
 
 ### Changes since `1.16.2`
 
@@ -61,7 +179,7 @@ Identical to `v1.17.0-RC2`.
 ```
 
 > This is a non-breaking **minor maintenance release**.  
-> See [here](https://github.com/ptaoussanis/encore#recommended-steps-after-any-significant-dependency-update) for recommended steps when updating any Clojure/Script dependencies.
+> See [here](https://github.com/taoensso/encore#recommended-steps-after-any-significant-dependency-update) for recommended steps when updating any Clojure/Script dependencies.
 
 ### New since `1.16.1`
 
@@ -79,7 +197,7 @@ Identical to `v1.17.0-RC2`.
 ```
 
 > This is a **minor maintenance release**.  
-> See [here](https://github.com/ptaoussanis/encore#recommended-steps-after-any-significant-dependency-update) for recommended steps when updating any Clojure/Script dependencies.
+> See [here](https://github.com/taoensso/encore#recommended-steps-after-any-significant-dependency-update) for recommended steps when updating any Clojure/Script dependencies.
 
 ### Fixes since `1.16.0`
 
@@ -96,7 +214,7 @@ Identical to `v1.17.0-RC2`.
 [com.taoensso/sente "1.16.0"]
 ```
 
-> Major feature release. Should be non-breaking, but see [here](https://github.com/ptaoussanis/encore#recommended-steps-after-any-significant-dependency-update) for recommended steps when updating any Clojure/Script dependencies.
+> Major feature release. Should be non-breaking, but see [here](https://github.com/taoensso/encore#recommended-steps-after-any-significant-dependency-update) for recommended steps when updating any Clojure/Script dependencies.
 
 Same as `v1.16.0-RC1`, `v1.16.0-alpha2`.
 
@@ -130,7 +248,7 @@ Same as `v1.16.0-RC1`, `v1.16.0-alpha2`.
 
 Same as `v1.16.0-alpha2`.
 
-> See [here](https://github.com/ptaoussanis/encore#recommended-steps-after-any-significant-dependency-update) for recommended steps when updating any Clojure/Script dependencies.
+> See [here](https://github.com/taoensso/encore#recommended-steps-after-any-significant-dependency-update) for recommended steps when updating any Clojure/Script dependencies.
 
 
 ## v1.16.0-alpha2 - 2020 Aug 24
@@ -147,7 +265,7 @@ Same as `v1.16.0-alpha2`.
 2. Run `lein clean` (or equivalent) to ensure no stale build artifacts remain.
 3. Please test carefully before running in production!
 
-Some info on how to resolve dependency conflicts [here](https://github.com/ptaoussanis/encore/blob/master/DEP-CONFLICT.md).
+Some info on how to resolve dependency conflicts [here](https://github.com/taoensso/encore/blob/master/DEP-CONFLICT.md).
 
 #### Changes since `v1.15.0`
 
@@ -217,20 +335,20 @@ As `v1.14.0-RC2`, but also includes:
 
 ### Security fix details
 
-- The fix [commit](https://github.com/ptaoussanis/sente/commit/ae3afd5cf92591c9f756c3177142bee7cccb8b6b) stops the CSRF token leak, introducing a **BREAKING API CHANGE** (details below).
+- The fix [commit](https://github.com/taoensso/sente/commit/ae3afd5cf92591c9f756c3177142bee7cccb8b6b) stops the CSRF token leak, introducing a **BREAKING API CHANGE** (details below).
 - Sente will now (by default) refuse to service any requests unless a CSRF token is detected (e.g. via `ring-anti-forgery`).
 
 ### Breaking changes
 
 #### `make-channel-socket-client!` now takes an extra mandatory argment
 
-It now takes an explicit `csrf-token` that you must provide. The value for the token can be manually extracted from the page HTML ([example](https://github.com/ptaoussanis/sente/blob/548af55c5eb13a53e451b5214f58ecd45f20b0a5/example-project/src/example/client.cljs#L33)).
+It now takes an explicit `csrf-token` that you must provide. The value for the token can be manually extracted from the page HTML ([example](https://github.com/taoensso/sente/blob/548af55c5eb13a53e451b5214f58ecd45f20b0a5/example-project/src/example/client.cljs#L33)).
 
 In most cases the change will involve three steps:
 
-1. You need to include the server's CSRF token somewhere in your page HTML: [example](https://github.com/ptaoussanis/sente/blob/548af55c5eb13a53e451b5214f58ecd45f20b0a5/example-project/src/example/server.clj#L69).
-2. You need to extract the CSRF token from your page HTML: [example](https://github.com/ptaoussanis/sente/blob/548af55c5eb13a53e451b5214f58ecd45f20b0a5/example-project/src/example/client.cljs#L33).
-3. You'll then use the extracted CSRF token as an argument when calling `make-channel-socket-client!`: [example](https://github.com/ptaoussanis/sente/blob/548af55c5eb13a53e451b5214f58ecd45f20b0a5/example-project/src/example/client.cljs#L52).
+1. You need to include the server's CSRF token somewhere in your page HTML: [example](https://github.com/taoensso/sente/blob/548af55c5eb13a53e451b5214f58ecd45f20b0a5/example-project/src/example/server.clj#L69).
+2. You need to extract the CSRF token from your page HTML: [example](https://github.com/taoensso/sente/blob/548af55c5eb13a53e451b5214f58ecd45f20b0a5/example-project/src/example/client.cljs#L33).
+3. You'll then use the extracted CSRF token as an argument when calling `make-channel-socket-client!`: [example](https://github.com/taoensso/sente/blob/548af55c5eb13a53e451b5214f58ecd45f20b0a5/example-project/src/example/client.cljs#L52).
 
 #### Client-side `:chsk/handshake` event has changed
 
@@ -410,7 +528,7 @@ Most users won't be affected by this change.
 
 #### Notes
 
-**[1]** Please see https://github.com/ptaoussanis/timbre/releases/tag/v4.0.0 for Timbre v4's **migration checklist**. Sorry for the hassle! This one-off change allows Sente to inherit all of Timbre's logging goodness (full logging config, ns filtering, production logging call elision, etc.). Migration usu. consists of a 1 or 2 line change if you're not using custom Timbre appenders.
+**[1]** Please see https://github.com/taoensso/timbre/releases/tag/v4.0.0 for Timbre v4's **migration checklist**. Sorry for the hassle! This one-off change allows Sente to inherit all of Timbre's logging goodness (full logging config, ns filtering, production logging call elision, etc.). Migration usu. consists of a 1 or 2 line change if you're not using custom Timbre appenders.
 
 ## v1.5.0 - 2015 Jun 11
 
@@ -481,9 +599,9 @@ So:
   <opts-map) ; NEW Clojure-side chsk constructor
 ```
 
-This change is a once-off nuisance that'll allow us the freedom of supporting a wide range of web servers in the future. Interested in a web server besides http-kit or Immutant? Am now [welcoming PRs](https://github.com/ptaoussanis/sente/issues/102) to support additional web servers.
+This change is a once-off nuisance that'll allow us the freedom of supporting a wide range of web servers in the future. Interested in a web server besides http-kit or Immutant? Am now [welcoming PRs](https://github.com/taoensso/sente/issues/102) to support additional web servers.
 
-Finally, **please see the updated [reference example project](https://github.com/ptaoussanis/sente/tree/master/example-project) for instructions on switching to an alternative web server like Immutant.**
+Finally, **please see the updated [reference example project](https://github.com/taoensso/sente/tree/master/example-project) for instructions on switching to an alternative web server like Immutant.**
 
 / Peter Taoussanis
 
@@ -512,7 +630,7 @@ Finally, **please see the updated [reference example project](https://github.com
 
 ## v1.1.0 / 2014 Sep 7
 
- * **FIX**: https://github.com/ptaoussanis/timbre/issues/79 (unnecessary deps being pulled in).
+ * **FIX**: https://github.com/taoensso/timbre/issues/79 (unnecessary deps being pulled in).
  * **NEW**: Added client-side `ajax-call` utility.
  * **NEW**: Added keys to `event-msg`s: `:id` (event-id), `:?data` (event-?data).
 
